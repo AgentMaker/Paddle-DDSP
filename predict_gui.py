@@ -1,24 +1,28 @@
 import paddle
-import argparse
 import numpy as np
 import librosa as li
 import soundfile as sf
 
 from ddsp import DDSP
+from gooey import Gooey, GooeyParser
 from ddsp.core import extract_loudness, extract_pitch
 
 
+@Gooey(optional_cols=1, program_name="DDSP GUI")
 def main():
-    parser = argparse.ArgumentParser()
+    parser = GooeyParser()
 
     parser.add_argument('--ckpt', '-c', type=str,
-                        default='./pretrained_models/violin/pretrained.pdparams')
+                        default='./pretrained_models/violin/pretrained.pdparams',
+                        widget='FileChooser')
     parser.add_argument('--input', '-i', type=str,
-                        default='./audios/singing.wav')
+                        default='./audios/singing.wav',
+                        widget='FileChooser')
     parser.add_argument('--output', '-o', type=str,
-                        default='./audios/output.wav')
+                        default='./audios/output.wav',
+                        widget='FileChooser')
 
-    args = parser.parse_known_args()[0]
+    args = parser.parse_args()
 
     ckpt = args.ckpt
     audio_file = args.input
