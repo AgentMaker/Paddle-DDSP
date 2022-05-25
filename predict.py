@@ -1,4 +1,5 @@
 import paddle
+import argparse
 import numpy as np
 import librosa as li
 import soundfile as sf
@@ -8,9 +9,20 @@ from ddsp.core import extract_loudness, extract_pitch
 
 
 if __name__ == '__main__':
-    ckpt = 'pretrained_models/violin/pretrained.pdparams'
-    audio_file = 'audios/singing.wav'
-    output_file = 'audios/output.wav'
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--ckpt', '-c', type=str,
+                        default='./pretrained_models/violin/pretrained.pdparams')
+    parser.add_argument('--input', '-i', type=str,
+                        default='./audios/singing.wav')
+    parser.add_argument('--output', '-o', type=str,
+                        default='./audios/output.wav')
+
+    args = parser.parse_known_args()[0]
+
+    ckpt = args.ckpt
+    audio_file = args.input
+    output_file = args.output
 
     sampling_rate = 48000
     signal_length = 192000
